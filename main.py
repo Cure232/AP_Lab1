@@ -39,11 +39,18 @@ for url in url1, url2:
     browser.get(url)
     if browser.title == "Ой!":
         bypass_yandex_images_captcha()
+
     image_divs = browser.find_elements(By.CLASS_NAME, "SimpleImage")
+    while len(image_divs) < 1200:
+        load_button_div = browser.find_element(By.CLASS_NAME, "SerpList-LoadContent")
+        load_button = load_button_div.find_element(By.TAG_NAME, "button")
+        load_button.click()
+        image_divs = browser.find_elements(By.CLASS_NAME, "SimpleImage")
+
     for image_div in image_divs:
         image_link = image_div.find_element(By.TAG_NAME, "img").get_property("src")
         print(image_link, end="\n")
-
+browser.close()
 # image = cv2.imread(path_to_file)   прочтение изображения из файла, path_to_file - путь до файла-изображения
 # cv2.imwrite(path_to_save_image, image)   сохранение изображения по заданному пути, например, path_to_folder/image_name.jpg
 
