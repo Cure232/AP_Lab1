@@ -7,7 +7,9 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 
-def bypass_yandex_images_captcha():
+def bypass_yandex_images_captcha() -> None:
+    """Tries to bypass yandex captcha. Throws exception if unable.
+    """
     try:
         captcha_button = browser.find_element(By.CLASS_NAME, "CheckboxCaptcha-Button")
         captcha_button.click()
@@ -17,7 +19,15 @@ def bypass_yandex_images_captcha():
         return
 
 
-def download_image_by_url(image_url):
+def download_image_by_url(image_url) -> any:
+    """Downloads image by url.
+
+    Args:
+        image_url (_type_): To be downloaded image's url.
+
+    Returns:
+        any: Image in MatLike type from cv2.
+    """
     req = requests.get(image_url)
     arr = np.asarray(bytearray(req.content), dtype=np.uint8)
     img = cv2.imdecode(arr, -1)
@@ -65,4 +75,5 @@ for url in url1, url2:
             cv2.imwrite(f"dataset\\bay horse\{image_name}.jpg", image)
         else:
             cv2.imwrite(f"dataset\\zebra\{image_name}.jpg", image)
+            
 browser.close()
